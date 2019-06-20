@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <div id="app">
+        <ul>
+            <li v-for="(item,index) in arr">
+                {{index}}--{{item.name}}--{{item.age}}
+                <button @click="del(index)">删除</button>
+                <button @click="rew(index)">修改</button>
+            </li>
+        </ul>
+    </div>
+<script>
+    let vm =new Vue({
+        el:'#app',
+        data:{
+            arr:[
+                {name:"yang",age:22},
+                {name:"li",age:27},
+                {name:"he",age:33},
+                {name:"wu",age:35}
+            ]
+        },
+        methods:{
+            del(index){
+                this.arr.splice(index,1)
+            },
+            rew(index){
+                this.arr.splice(index,1,{name:'yang',age:33})
+            }
+        }
+    })
+</script>
+</body>
+</html>

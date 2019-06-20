@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="msg" @keyup="filterUser">
+        <ul>
+            <li v-for="(user,index) in filterUser">{{index}}--{{user.name}}--{{user.age}}</li>
+        </ul>
+        <button @click="sortAge(0)">年龄升序</button>
+        <button @click="sortAge(1)">年龄降序</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            msg:'',
+            users:[
+                {name:"yang",age:22},
+                {name:"li",age:27},
+                {name:"he",age:33},
+                {name:"wu",age:35}
+            ]
+        },
+        methods:{
+/*            fn(){
+                this.user=this.user.filter((user)=>{
+                    return user.name.includes(this.msg)})
+            }*/
+            sortAge(num){
+                this.users.sort((a,b)=>{
+                    if(num){
+                        return a.age-b.age;
+                    }
+                    else{
+                       return b.age-a.age;
+                    }
+                })
+            }
+        },
+        computed:{
+            filterUser(){
+                return this.users.filter((user)=>{
+                    return user.name.includes(this.msg)})//回调函数中 return只要为真，就过滤掉不符合的，返回符合的
+            }
+        }
+
+    })
+    </script>
+</body>
+</html>
