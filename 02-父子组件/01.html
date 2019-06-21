@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <div id="app">
+        <son :a="msg">
+            <h1 slot="yang">xuexue</h1>
+            <template slot="zu">
+                <ul>
+                    <li>a</li>
+                    <li>b</li>
+                    <li>c</li>
+                    <li>d</li>
+                </ul>
+            </template>
+        </son>
+    </div>
+    <template id="son">
+
+        <div>
+            <slot name="yang"></slot>
+            我是{{a}}{{b}}
+            <slot name="zu"></slot>
+        </div>
+    </template>
+    <script>
+        let son = {
+            props:['a'],
+            template:'#son',
+            data(){
+                return {
+                    b:3
+                }
+            }
+        }
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                msg:2
+            },
+            components:{
+                son
+            }
+
+        })
+    </script>
+</body>
+</html>

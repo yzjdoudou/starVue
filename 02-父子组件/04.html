@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <div id="app">
+        <yang></yang>
+        <zu></zu>
+    </div>
+
+
+    <template id="yang" >
+        <div @click="fn">{{msg}}</div>
+    </template>
+    <template id="zu">
+        <div>{{msg}}</div>
+    </template>
+<script>
+let eventBus = new Vue();
+    let yang ={
+        template:'#yang',
+        data(){
+            return{
+                msg:'yang'
+            }
+        },
+        methods:{
+          fn(){
+              console.log(2);
+              eventBus.$emit('xxx',this.msg)
+          }
+        }
+    }
+
+    let zu ={
+        template: '#zu',
+        data(){
+            return{
+                msg:'zu'
+            }
+        },
+        created(){
+            eventBus.$on('xxx',(msg)=>{
+                this.msg=msg;
+        })
+        }
+
+    }
+    let vm = new Vue({
+        el:'#app',
+        components:{
+            yang,
+            zu
+        }
+    })
+</script>
+</body>
+</html>

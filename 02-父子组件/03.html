@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .mask{
+            position: fixed;
+            left:0;
+            top:0;
+            width:100%;
+            height:100%;
+            background-color: rgba(0,0,0,.3);
+        }
+        .hideWindow{
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width:400px;
+            height:400px;
+            background-color: #fff;
+        }
+        .close{
+            position: absolute;
+            right:0;
+            top:0;
+        }
+    </style>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <div id="app">
+        <button @click="open" >点击弹窗</button>
+        <hide v-if="state" @aaa="close"></hide>
+    </div>
+    <template id="hide">
+        <div class="mask">
+            <div class="hideWindow">
+                <button class="close" @click="close">关闭弹窗</button>
+            </div>
+        </div>
+    </template>
+<script>
+    let hide = {
+        template:'#hide',
+        methods: {
+            close(){
+                this.$emit("aaa")
+            }
+        }
+    }
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            state:false
+        },
+        components:{
+            hide
+        },
+        methods:{
+            open(){
+                this.state=true
+            },
+            close(){
+                this.state=false
+            }
+        }
+    })
+</script>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<div id="app">
+    <son :a="msg">
+        <h1 slot="yang">xuexue</h1>
+        <template slot-scope="result">
+            <ul>
+                <li v-for="(item,index) in result.list">{{item}}</li>
+            </ul>
+        </template>
+    </son>
+</div>
+<template id="son">
+
+    <div>
+        <slot :list="arr"></slot>
+        <slot name="yang"></slot>
+    </div>
+</template>
+<script>
+    let son = {
+        props:['a'],
+        template:'#son',
+        data(){
+            return {
+                b:3,
+                arr:['shuijiao','dadoudou','wanshui']
+            }
+        }
+    }
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            msg:2
+        },
+        components:{
+            son
+        }
+
+    })
+</script>
+</body>
+</html>
