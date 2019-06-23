@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!-- 操纵根组件中的元素-->
+    <div id="app">
+        <ul>
+            <li v-for="item in 5" ref="bb">我是bb</li>
+        </ul>
+        <yang ref="aa"></yang>
+    </div>
+<template id="yang">
+    <div>
+        我是{{msg}}
+    </div>
+</template>
+<script>
+    let yang ={
+        template:'#yang',
+        data(){
+            return{
+                msg:'aa'
+            }
+        },
+        mounted(){
+            this.msg='xxx'
+            console.log(this.msg);
+        }
+    }
+    let vm =new Vue({
+        el:'#app',
+        components:{
+            yang
+        },
+        created(){
+
+        },
+        mounted(){
+            //操纵子组件中元素
+
+            console.log(this.$refs.aa.$el.innerText);
+
+            this.$nextTick(()=>{
+                console.log(this.$refs.aa.$el.innerText);
+            })
+
+
+            debugger
+            console.log(this.$refs)
+        }
+    })
+</script>
+</body>
+</html>
