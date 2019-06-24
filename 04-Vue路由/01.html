@@ -6,5 +6,38 @@
 </head>
 <body>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<div id="app">
+    <input type="radio" v-model="cmcc" value="home">首页
+    <input type="radio" v-model="cmcc" value="user">用户
+    <keep-alive>
+        <component :is="cmcc"></component>
+    </keep-alive>
+</div>
+<script>
+    let home ={
+        template:'<div>首页</div>',
+        created(){
+            console.log('首页创建了')
+        }
+    }
+    let user ={
+        template:'<div>用户</div>',
+        created(){
+            console.log('用户创建了')
+        }
+    }
+    let vm = new Vue({
+        el:'#app',
+        data:{
+          cmcc:''
+        },
+        components:{
+            user,
+            home
+        }
+    })
+</script>
+
 </body>
 </html>
