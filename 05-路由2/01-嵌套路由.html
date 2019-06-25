@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #app{
+            margin:50px auto;
+            width:770px;
+            height:600px;
+            border:2px solid blue;
+        }
+        button{
+            width:150px;
+            height:30px;
+            border:1px solid black;
+        }
+        .router-link-active{
+            background-color: rgba(0,0,0,.3);
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <router-link :to="{path:'/home'}" tag=button>首页</router-link>
+        <router-link :to="{path:'/user'}" tag=button>用户中心</router-link>
+        <router-link :to="{path:'/about'}" tag=button exact>关于我们</router-link>
+        <router-link :to="{path:'/login'}" tag=button>登录</router-link>
+        <router-link :to="{path:'/register'}" tag=button>注册</router-link>
+        <router-view></router-view>
+    </div>
+    <template id="about">
+        <div>
+            <router-link :to="{path:'/about/concat'}" tag=button>连接</router-link>
+            <router-link :to="{path:'/about/partner'}" tag=button>合作伙伴</router-link>
+            <router-link :to="{path:'/about/address1'}" tag=button>地址</router-link>
+            <router-view></router-view>
+        </div>
+    </template>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script>
+        let home = {
+            template:"<div>首页</div>",
+            created(){
+                document.title=this.$route.meta.title
+            }
+        }
+        let user = {
+            template:"<div>用户中心</div>"
+        }
+        let about = {
+            template:"#about"
+        }
+        let login = {
+            template:"<div>登录</div>"
+        }
+        let register = {
+            template:"<div>注册</div>"
+        }
+        let concat = {
+            template:"<div>呱呱</div>"
+        }
+        let partner = {
+            template:"<div>非洲</div>"
+        }
+        let address1 = {
+            template:"<div>湖南</div>"
+        }
+        let routes =[
+            {path:'/home',component:home,meta:{title:'首页'}},
+            {path:'/user',component:user,meta:{title:'用户中心'}},
+            {path:'/about',component:about,children:[
+                    {path:'concat',component:concat},
+                    {path:'partner',component:partner},
+                    {path:'address1',component:address1}
+                ],meta:{title:'首页'}},
+            {path:'/login',component:login,meta:{title:'登录'}},
+            {path:'/register',component:register,meta:{title:'注册'}}
+        ]
+        let router = new VueRouter({
+            routes
+        })
+        let vm =new Vue({
+            el:'#app',
+            router
+        })
+    </script>
+</body>
+</html>
