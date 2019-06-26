@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--http://www.phonegap100.com/appapi.php?a=getPortalList&catid=20-->
+    <div id="app">
+    <router-view></router-view>
+    </div>
+
+    <template id="newsList">
+        <div class="newsList">
+            <ul>
+                <li v-for="item in result"><router-link :to="{name:'articlelink',params:{id:item.aid}}">{{item.title}}</router-link></li>
+            </ul>
+        </div>
+    </template>
+    <template id="article">
+        <div class="article">
+            <a href="javascript:history.go(-1)">&lt&lt返回上一页</a>
+            <h2>{{title}}</h2>
+            <div v-html="content"></div>
+        </div>
+    </template>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+    <script>
+        axios.interceptors.response.use(function (response) {
+            return response.data.result;
+        })
+        Vue.prototype.$axios=axios;
+        let article ={
+            template: '#article',
+            data(){
+                return{
+                    title:'',
+                    content:''
+                }
+            },
+        async created(){
+            let [{content,title}] = await this.$axios.get(`http://www.phonegap100.com/appapi.php?a=getPortalArticle&aid=${this.$route.params.id}`);
+            this.content=content;
+            this.title=title;
+            console.log(this.title);
+
+        }
+        }
+        let newsList = {
+            template:'#newsList ',
+            data(){
+                return{
+                    result:[]
+                }
+            },
+          async created(){
+            /*  this.$axios.get('http://www.phonegap100.com/appapi.php?a=getPortalList&catid=20')
+                  .then((res)=>{
+                      this.result=res.data.result
+                  })*/
+            let a = await this.$axios.get('http://www.phonegap100.com/appapi.php?a=getPortalList&catid=20')
+            this.result=a
+            /*let {data:{result}}= await this.$axios.get('http://www.phonegap100.com/appapi.php?a=getPortalList&catid=20')
+               this.result=result
+            }*/
+        }
+        }
+        let routes =[
+            {path:'/',component:newsList},
+            {path:'/article/:id',name:'articlelink',component:article}
+        ]
+        let router =new VueRouter({
+            routes
+        })
+        let vm = new Vue({
+            el:'#app',
+            router
+        })
+    </script>
+</body>
+</html>
